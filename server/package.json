@@ -1,0 +1,33 @@
+{
+  "name": "financial-super-admin-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node src/index.js",
+    "qa": "NODE_ENV=qa babel-node src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-client": "^2.6.10",
+    "apollo-server": "^2.18.2",
+    "apollo-server-express": "^2.18.2",
+    "axios": "^0.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "form-data": "^3.0.0",
+    "graphql": "^15.3.0",
+    "graphql-tools": "^6.2.4",
+    "graphql-upload": "^11.0.0",
+    "helmet": "^4.1.1",
+    "pg": "^8.4.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "babel-cli": "^7.0.0-0"
+  }
+}
