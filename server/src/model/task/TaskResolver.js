@@ -1,32 +1,6 @@
 import { ApolloError } from 'apollo-client/errors/ApolloError';
-
-const tasks = [
-  {
-    'title': 'task1',
-    'description': 'desc',
-    'id': '1111111'
-  },
-  {
-    'title': 'task2',
-    'description': 'desc',
-    'id': '222222'
-  },
-  {
-    'title': 'task3',
-    'description': 'desc',
-    'id': '33333'
-  },
-  {
-    'title': 'task4',
-    'description': 'desc',
-    'id': '444444'
-  },
-  {
-    'title': 'task5',
-    'description': 'desc',
-    'id': '555555'
-  },
-]
+import { doQuery } from '../../repository';
+import { search, mutation } from '../../repository/resource/taskQueries'
 
 const taskResolver = {
   Query: {
@@ -45,13 +19,13 @@ const taskResolver = {
 };
 
 async function findById(args, context) {
-  // fetch from database
-  return tasks.filter((element) => element.id == args.id)[0];
+  const result = await doQuery(search.findById, [args.id])
+  return result.rows[0] // check if its empty
 }
 
 async function findAll(args, context) {
-  // retrieving all tasks from database
-  return tasks;
+  const result = await doQuery(search.findAll)
+  return result.rows
 }
 
 async function addTask(args, context) {
