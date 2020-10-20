@@ -1,0 +1,17 @@
+version: '3'
+services:
+  db:
+    image: postgres:10-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=soccerdata
+      - POSTGRES_PASSWORD=admin
+  app:
+    build: .
+    ports:
+      - 4000:4000
+    depends_on:
+      - db
+    entrypoint: babel-node server/src/index.js

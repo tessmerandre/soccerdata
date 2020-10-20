@@ -3,11 +3,11 @@ import { Pool } from 'pg'
 // add client info
 
 const pool = new Pool({
-    host: 'localhost',
+    host: 'db',
     database: 'soccerdata',
     port: 5432,
-    user: '',
-    password: '',
+    user: 'admin',
+    password: 'admin',
 })
 
 export async function doQuery(query, args, callback) {
