@@ -5,6 +5,7 @@ type Task {
   id: ID!
   title: String!
   description: String
+  completed: Boolean
 }
 
 input TaskInput {

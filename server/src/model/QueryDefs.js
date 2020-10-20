@@ -10,6 +10,9 @@ const queryDefs = gql`
 
   type Mutation {
     addTask(task: TaskInput!): Task
+    editTask(id: ID!, task: TaskInput!): Task
+    markTaskCompleted(id: ID!): Task
+    markTaskUncompleted(id: ID!): Task
   }
 `;
 

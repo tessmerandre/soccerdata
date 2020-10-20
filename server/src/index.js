@@ -7,11 +7,6 @@ import { appSchema } from './model';
 const server = new ApolloServer({
   schema: appSchema,
   context: async ({ req }) => {
-    // if (fetch user req.headers.jwt) {
-      // proceed
-    // } else {
- // skip
-   // }
     return { 'user': 'andré' };
   }
 });
