@@ -3,7 +3,7 @@ import { Pool } from 'pg'
 // add client info
 
 const pool = new Pool({
-    host: 'db',
+    host: 'soccerdata_default',
     database: 'soccerdata',
     port: 5432,
     user: 'admin',
