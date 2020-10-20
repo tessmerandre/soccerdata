@@ -4,5 +4,5 @@ export const search = {
 }
 
 export const mutation = {
-    addTask: `insert into task values($1, $2, $3)`
+    addTask: `insert into task(title, description) values($1, $2) returning *`
 }

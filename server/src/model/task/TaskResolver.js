@@ -25,18 +25,15 @@ async function findById(args, context) {
 
 async function findAll(args, context) {
   const result = await doQuery(search.findAll)
+  console.log(result)
   return result.rows
 }
 
 async function addTask(args, context) {
   // add to database
-  const task = {
-    'id': new Date().getMilliseconds(),
-    'title': args.task.title,
-    'description': args.task.description
-  }
-  tasks.push(task)
-  return task
+  const result = await doQuery(mutation.addTask, [args.task.title, args.task.description])
+  console.log(result)
+  return result.rows[0]
 }
 
 export { taskResolver };
