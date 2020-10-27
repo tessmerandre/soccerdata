@@ -4,15 +4,14 @@ const queryDefs = gql`
   scalar Date
 
   type Query {
-    task(id: ID!): Task
-    tasks: [Task]
+    stadium(id: ID!): Stadium
+    stadiums: [Stadium]
   }
 
   type Mutation {
-    addTask(task: TaskInput!): Task
-    editTask(id: ID!, task: TaskInput!): Task
-    markTaskCompleted(id: ID!): Task
-    markTaskUncompleted(id: ID!): Task
+    addStadium(stadium: StadiumInput!): Stadium
+    editStadium(id: ID!, stadium: StadiumInput!): Stadium
+    deleteStadium(id: ID!): Boolean
   }
 `;
 

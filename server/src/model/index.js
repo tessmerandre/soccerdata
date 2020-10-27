@@ -1,16 +1,18 @@
 import { makeExecutableSchema } from 'graphql-tools'
-import { task } from './task'
+
+import { stadium } from './stadium'
+
 import { queryDefs } from './QueryDefs'
 import { dateScalar } from '../utils/DateScalar'
 
 const appSchema = makeExecutableSchema({
   typeDefs: [
     queryDefs,
-    ...task.typeDefs
+    ...stadium.typeDefs
   ],
   resolvers: [
     ...dateScalar.resolvers,
-    ...task.resolvers
+    ...stadium.resolvers
   ],
 });
 

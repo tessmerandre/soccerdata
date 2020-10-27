@@ -8,10 +8,10 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_DB=soccerdata
       - POSTGRES_PASSWORD=admin
-  app:
-    build: .
-    ports:
-      - 4000:4000
-    depends_on:
-      - db
-    entrypoint: npm start
+  # app:
+  #   build: .
+  #   ports:
+  #     - 4000:4000
+  #   depends_on:
+  #     - db
+  #   entrypoint: npm start

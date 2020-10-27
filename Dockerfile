@@ -6,4 +6,3 @@ COPY server /usr/src/app/
 WORKDIR /usr/src/app/server
 
 RUN npm install
-# CMD ["npm", "start"]
