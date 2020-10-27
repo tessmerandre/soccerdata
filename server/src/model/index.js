@@ -1,6 +1,7 @@
 import { makeExecutableSchema } from 'graphql-tools'
 
 import { stadium } from './stadium'
+import { footballClub } from './football-club'
 
 import { queryDefs } from './QueryDefs'
 import { dateScalar } from '../utils/DateScalar'
@@ -8,11 +9,13 @@ import { dateScalar } from '../utils/DateScalar'
 const appSchema = makeExecutableSchema({
   typeDefs: [
     queryDefs,
-    ...stadium.typeDefs
+    ...stadium.typeDefs,
+    ...footballClub.typeDefs
   ],
   resolvers: [
     ...dateScalar.resolvers,
-    ...stadium.resolvers
+    ...stadium.resolvers,
+    ...footballClub.resolvers
   ],
 });
 
