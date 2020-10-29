@@ -16,7 +16,7 @@ const footballClubResolver = {
       return createFootballClub(args, context)
     },
     editFootballClub: (parent, args, context) => {
-      return editFootballClub(args, context);
+      return editFootballClub(args, context)
     },
     addFootballClubToSeason: (parent, args, context) => {
       return addToSeason(args, context)

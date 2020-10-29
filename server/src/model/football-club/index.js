@@ -1,9 +1,9 @@
 import { footballClubTypeDefs } from './FootballClubTypeDef';
-import { footballResolver } from './FootballClubResolver';
+import { footballClubResolver } from './FootballClubResolver';
 
 const footballClub = {
   typeDefs: [footballClubTypeDefs],
-  resolvers: [footballResolver],
+  resolvers: [footballClubResolver],
 };
 
 export { footballClub };

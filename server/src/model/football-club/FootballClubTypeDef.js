@@ -6,7 +6,7 @@ type FootballClub {
   name: String!
 }
 
-input FootballClub {
+input FootballClubInput {
   id: ID
   name: String!
 }
