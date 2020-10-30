@@ -20,12 +20,6 @@ const footballClubResolver = {
     },
     editFootballClub: (parent, args, context) => {
       return editFootballClub(args, context)
-    },
-    addFootballClubToSeason: (parent, args, context) => {
-      return addToSeason(args, context)
-    },
-    removeFootballClubFromSeason: (parent, args, context) => {
-      return removeFromSeason(args, context)
     }
   },
 };
@@ -48,14 +42,6 @@ async function createFootballClub(args, context) {
 async function editFootballClub(args, context) {
   const result = await doQuery(mutation.editFootballClub, [args.id, args.stadium.name])
   return result.rows[0]
-}
-
-async function addToSeason(args, context) {
-  // todo
-}
-
-async function removeFromSeason(args, context) {
-  // todo
 }
 
 export async function getFootclubsOnSeason(args, context) {

@@ -21,9 +21,6 @@ const seasonResolver = {
     },
     deleteSeason: (parent, args, context) => {
       return deleteSeason(args, context)
-    },
-    addFootclubsToSeason: (parent, args, context) => {
-      return addFootclubsToSeason(args, context)
     }
   },
 };
@@ -40,12 +37,21 @@ async function findAll(args, context) {
 
 async function createSeason(args, context) {
   const result = await doQuery(mutation.createSeason, [args.season.name])
-  return result.rows[0]
-}
+  const season = result.rows[0]
+
+  await addFootclubsToSeason({seasonId: season.id, clubs: args.season.footballClubs}, context)
+
+  return await findById({id: season.id}, context)
+} 
 
 async function editSeason(args, context) {
   const result = await doQuery(mutation.editSeason, [args.id, args.season.name])
-  return result.rows[0]
+  const season = result.rows[0]
+
+  await removeAllFootballClubsFromSeason({seasonId: season.id}, context)
+  await addFootclubsToSeason({seasonId: season.id, clubs: args.season.footballClubs}, context)
+
+  return findById({id: season.id}, context)
 }
 
 async function deleteSeason(args, context) {
@@ -57,11 +63,13 @@ async function addFootclubsToSeason(args, context) {
   const seasonId = args.seasonId
   const clubs = args.clubs
 
-  clubs.forEach(async club => {
-    const result = await doQuery(mutation.addFootballclubToSeason, [seasonId, club.id])
-  });
+  for (const club of clubs) {
+    await doQuery(mutation.addFootballclubToSeason, [seasonId, club.id])
+  }
+}
 
-  return findById(args)
+async function removeAllFootballClubsFromSeason(args, context) {
+  await doQuery(mutation.removeAllFootballclubsFromSeason, [args.seasonId])
 }
 
 export { seasonResolver };

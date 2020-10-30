@@ -8,8 +8,8 @@ type Season {
 }
 
 input SeasonInput {
-  id: ID
   name: String!
+  footballClubs: [FootballClubInput]!
 }
 `;
 

@@ -8,8 +8,10 @@ type FootballClub {
 
 input FootballClubInput {
   id: ID
-  name: String!
+  name: String
 }
 `;
+
+// make name parameter on input type required, for tests purpose ill keep it nullable...
 
 export { footballClubTypeDefs }
