@@ -8,6 +8,9 @@ const queryDefs = gql`
     stadiums: [Stadium]
     footballClub(id: ID!): FootballClub
     footballClubs: [FootballClub]
+    season(id: ID!): Season
+    seasons: [Season]
+    footballClubsOnSeason(seasonId: ID!): [FootballClub]
   }
 
   type Mutation {
@@ -18,6 +21,10 @@ const queryDefs = gql`
     editFootballClub(id: ID!, footballClub: FootballClubInput!): FootballClub
     addFootballClubToSeason(footballClubId: ID!, seasonId: ID!): Boolean
     removeFootballClubFromSeason(footballClubId: ID!, seasonId: ID!): Boolean
+    createSeason(season: SeasonInput!): Season
+    editSeason(id: ID!, season: SeasonInput!): Season
+    deleteSeason(id: ID!): Boolean
+    addFootclubsToSeason(seasonId: ID!, clubs: [FootballClubInput]): Season
   }
 `;
 

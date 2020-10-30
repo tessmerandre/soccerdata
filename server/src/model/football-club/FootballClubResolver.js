@@ -9,6 +9,9 @@ const footballClubResolver = {
     },
     footballClubs(parent, args, context) {
       return findAll(args, context)
+    },
+    footballClubsOnSeason(parent, args, context) {
+      return getFootclubsOnSeason(args, context)
     }
   },
   Mutation: {
@@ -53,6 +56,11 @@ async function addToSeason(args, context) {
 
 async function removeFromSeason(args, context) {
   // todo
+}
+
+export async function getFootclubsOnSeason(args, context) {
+  const result = await doQuery(search.footballClubsOnSeason, [args.seasonId])
+  return result.rows
 }
 
 export { footballClubResolver };
