@@ -1,6 +1,18 @@
 export const search = {
     findById: `select * from season where deleted_at is null and id = $1`,
-    findAll: `select * from season where deleted_at is null`
+    findAll: `select * from season where deleted_at is null`,
+    getFootballClubPoints: `
+    select sum(
+        case
+            when (team1_score > team2_score and team1_id = $1) or (team2_score > team1_score and team2_id = $1) then 3
+            when team1_score = team2_score and (team1_id = $1 or team2_id = $1) then 1
+            else 0
+        end
+    ) as points from "match" where team1_id = $1 or team2_id = $1
+    `,
+    getFootballClubWins: `select count(*) as wins from match where ((team1_score > team2_score and team1_id = $1) or (team2_score > team1_score and team2_id = $1))`,
+    getFootballClubLosses: `select count(*) as losses from match where ((team1_score < team2_score and team1_id = $1) or (team2_score < team1_score and team2_id = $1))`,
+    getFootballClubDraws: `select count(*) as draws from match where team1_score = team2_score and (team1_id = $1 or team2_id = $1)`
 }
 
 export const mutation = {

@@ -15,6 +15,8 @@ const queryDefs = gql`
 
     match(id: ID!): Match
     matches(seasonId: ID!): [Match]
+
+    seasonOverview(seasonId: ID!): SeasonOverview
   }
 
   type Mutation {
