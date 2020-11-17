@@ -29,7 +29,7 @@ async function findBySeason(args, context) {
 }
 
 async function addMatch(args, context) {
-  const result = await doQuery(mutation.createSeason, [args.season.name])
+  const result = await doQuery(mutation.addMatch, [args.match.stadium_id, args.match.season_id, args.match.team1_id, args.match.team1_score, args.match.team2_id, args.match.team2_score])
   return result.rows[0]
 }
 

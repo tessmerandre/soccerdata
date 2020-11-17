@@ -5,6 +5,8 @@ type Match {
   id: ID!
   team1: FootballClub!
   team2: FootballClub!
+  team1_score: Int!
+  team2_score: Int!
   season: Season!
   stadium: Stadium!
   created_at: String
@@ -16,7 +18,7 @@ input MatchInput {
   team2_id: ID!
   team2_score: Int!
   season_id: ID!
-  stadium: ID!
+  stadium_id: ID!
 }
 `;
 
