@@ -29,8 +29,17 @@ async function findBySeason(args, context) {
 }
 
 async function addMatch(args, context) {
+  const matchAlreadyHappenned = await checkIfMatchHasAlreadyHappenned(args, context)
+  if (matchAlreadyHappenned) {
+    throw new ApolloError("This match has already happenned")
+  }
   const result = await doQuery(mutation.addMatch, [args.match.stadium_id, args.match.season_id, args.match.team1_id, args.match.team1_score, args.match.team2_id, args.match.team2_score])
   return result.rows[0]
+}
+
+async function checkIfMatchHasAlreadyHappenned(args, context) {
+  const result = await doQuery(search.findMatchWithTeams, [args.match.team1_id, args.match.team2_id])
+  return result.rowCount != 0
 }
 
 export { matchResolver };

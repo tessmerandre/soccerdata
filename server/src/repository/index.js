@@ -1,7 +1,5 @@
 import { Pool } from 'pg'
 
-// add client info
-
 const pool = new Pool({
     host: 'localhost',
     database: 'soccerdata',
