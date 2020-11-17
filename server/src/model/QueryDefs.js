@@ -1,8 +1,6 @@
 import { gql } from 'apollo-server-express';
 
 const queryDefs = gql`
-  scalar Date
-
   type Query {
     stadium(id: ID!): Stadium
     stadiums: [Stadium]
@@ -14,6 +12,9 @@ const queryDefs = gql`
     seasons: [Season]
     
     footballClubsOnSeason(seasonId: ID!): [FootballClub]
+
+    match(id: ID!): Match
+    matches(seasonId: ID!): [Match]
   }
 
   type Mutation {
@@ -27,6 +28,8 @@ const queryDefs = gql`
     createSeason(season: SeasonInput!): Season
     editSeason(id: ID!, season: SeasonInput!): Season
     deleteSeason(id: ID!): Boolean
+
+    addMatch(match: MatchInput!): Match
   }
 `;
 

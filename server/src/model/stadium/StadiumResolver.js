@@ -24,7 +24,7 @@ const stadiumResolver = {
   },
 };
 
-async function findById(args, context) {
+export async function findById(args, context) {
   const result = await doQuery(search.findById, [args.id])
   return result.rows[0]
 }

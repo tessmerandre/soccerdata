@@ -1,6 +1,7 @@
 CREATE TABLE stadium (
     id SERIAL PRIMARY KEY,
-	name VARCHAR(200) NOT NULL
+	name VARCHAR(200) NOT null,
+	deleted_at timestamp null
 );
 
 CREATE TABLE football_club(
@@ -10,7 +11,7 @@ CREATE TABLE football_club(
 
 CREATE TABLE season(
 	id SERIAL PRIMARY key,
-	name VARCHAR(200) NOT NULL
+	name VARCHAR(200) not null
 );
 
 CREATE TABLE football_club_season(
@@ -21,11 +22,12 @@ CREATE TABLE football_club_season(
 
 CREATE TABLE match(
 	id SERIAL PRIMARY KEY,
-	stadium INT REFERENCES stadium(id) NOT NULL,
-	team1_id INT REFERENCES football_club(id) NOT NULL,
-	team1_score INT NOT NULL CHECK(team1_score >= 0),
-	team2_id INT REFERENCES football_club(id) NOT NULL,
-	team2_score INT NOT NULL CHECK(team2_score >= 0)
+	stadium_id INT REFERENCES stadium(id) not null,
+	season_id INT references season(id) not null,
+	team1_id int references football_club(id) not null,
+	team1_score int not null check(team1_score >= 0),
+	team2_id int references football_club(id) not null,
+	team2_score int not null check(team2_score >= 0)
 );
 
 insert into stadium(name) values ('estadio 1');

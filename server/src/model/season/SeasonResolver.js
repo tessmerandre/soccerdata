@@ -1,5 +1,4 @@
 import { ApolloError } from 'apollo-client/errors/ApolloError';
-import { AddMergedTypeSelectionSets } from 'graphql-tools';
 import { doQuery } from '../../repository';
 import { search, mutation } from '../../repository/resource/seasonQueries'
 
@@ -25,7 +24,7 @@ const seasonResolver = {
   },
 };
 
-async function findById(args, context) {
+export async function findById(args, context) {
   const result = await doQuery(search.findById, [args.id])
   return result.rows[0]
 }
