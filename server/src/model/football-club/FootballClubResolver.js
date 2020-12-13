@@ -35,12 +35,12 @@ async function findAll(args, context) {
 }
 
 async function createFootballClub(args, context) {
-  const result = await doQuery(mutation.createFootballClub, [args.stadium.name])
+  const result = await doQuery(mutation.createFootballClub, [args.footballClub.name])
   return result.rows[0]
 }
 
 async function editFootballClub(args, context) {
-  const result = await doQuery(mutation.editFootballClub, [args.id, args.stadium.name])
+  const result = await doQuery(mutation.editFootballClub, [args.id, args.footballClub.name])
   return result.rows[0]
 }
 
