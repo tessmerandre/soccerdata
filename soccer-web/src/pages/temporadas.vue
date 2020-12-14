@@ -19,15 +19,16 @@
           </q-card>
         </q-list>
 
-        <div class="row q-pl-xl justify-between">
+        <div v-if="seasonList.length" class="row q-px-xl justify-between">
           <div class="col-3"><strong>NOME</strong></div>
           <div class="col-3"><strong>PERÍODO</strong></div>
           <div class="col-3"><strong>ORGANIZADOR</strong></div>
           <div class="col-1"></div>
           <div class="col-1"></div>
+          <div class="col-1"></div>
         </div>
 
-        <q-list separator>
+        <q-list v-if="seasonList.length" separator>
 
           <q-card
           class="q-mb-lg"
@@ -36,32 +37,35 @@
           :key="season.nome">
 
             <q-card-section>
-              <div class="row q-pl-xl q-mt-sm justify-between" style="font-weight: bold">
+              <div class="row q-px-xl q-mt-sm justify-between" style="font-weight: bold">
                 <div class="col-3 text-h6">
                   {{season.nome}}
                 </div>
 
                 <div class="col-3 text-h6">
-                  {{season.periodo}}
+                  {{season.inicio}} - {{season.fim}}
                 </div>
 
                 <div class="col-3 text-h6">
                   {{season.organizador}}
                 </div>
 
-                <div class="col-1">
-                  <q-btn color="black" text-color="white" @click="openMatchs = !openMatchs" label="Partidas"/>
-                </div>
+                <div class="flex col-3 justify-between">
+                  <div class="col-1">
+                    <q-btn color="black" text-color="white" @click="openMatchs = !openMatchs" label="Partidas"/>
+                  </div>
 
-                <div class="col-1">
-                  <q-btn round color="green" icon="edit" @click="editar(index)"/>
-                </div>
+                  <div class="col-1">
+                    <q-btn round color="green" icon="edit" @click="chamarModalEdit(index)"/>
+                  </div>
 
-                <div class="col-1">
-                  <q-btn round color="red" icon="delete" @click="chamaModalDelete(index)" />
+                  <div class="col-1">
+                    <q-btn round color="red" icon="delete" @click="chamaModalDelete(index)" />
+                  </div>
                 </div>
               </div>
             </q-card-section>
+
             <q-markup-table v-if="openMatchs" flat bordered separator="horizontal">
               <thead class="bg-red">
                 <tr style="font-weight: bold">
@@ -105,6 +109,103 @@
                 </div>
 
                 <div>
+                  <q-input outlined v-model="season.inicio" mask="date" label="Data de Início">
+                    <template v-slot:append>
+                      <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                          <q-date v-model="season.inicio">
+                            <div class="row items-center justify-end">
+                              <q-btn v-close-popup label="Close" color="primary" flat />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                </q-input>
+                </div>
+
+                <div>
+                  <q-input outlined v-model="season.fim" mask="date" label="Data de Término">
+                    <template v-slot:append>
+                      <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                          <q-date v-model="season.fim">
+                            <div class="row items-center justify-end">
+                              <q-btn v-close-popup label="Close" color="primary" flat />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                </q-input>
+                </div>
+
+                <div>
+                  <q-input outlined v-model="season.organizador" label="Organizador" />
+                </div>
+
+                <div>
+                  <q-select outlined multiple use-chips v-model="season.times" :options="options" label="Times" />
+                </div>
+
+                <div>
+                  <q-btn label="Salvar" type="submit" color="primary"/>
+                  <q-btn label="Cancelar" type="reset" color="primary" flat class="q-ml-sm" />
+                </div>
+              </q-form>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="openEditModal" :position="'right'" full-height>
+          <q-card style="width: 400px">
+            <q-card-section>
+              <div class="text-h6" style="font-weight: bolder">Adicionar Temporada</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              <q-form
+                @submit="EditSeason()"
+                @reset="onReset"
+                class="q-gutter-md"
+              >
+                <div>
+                    <q-input outlined v-model="season.nome" label="Nome do Compeonato" />
+                </div>
+
+                <div>
+                  <q-input outlined v-model="season.inicio" mask="date" label="Data de Início">
+                    <template v-slot:append>
+                      <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                          <q-date v-model="season.inicio">
+                            <div class="row items-center justify-end">
+                              <q-btn v-close-popup label="Close" color="primary" flat />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                </q-input>
+                </div>
+
+                <div>
+                  <q-input outlined v-model="season.fim" mask="date" label="Data de Fim">
+                    <template v-slot:append>
+                      <q-icon name="event" class="cursor-pointer">
+                        <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                          <q-date v-model="season.fim">
+                            <div class="row items-center justify-end">
+                              <q-btn v-close-popup label="Close" color="primary" flat />
+                            </div>
+                          </q-date>
+                        </q-popup-proxy>
+                      </q-icon>
+                    </template>
+                </q-input>
+                </div>
+
+                <div>
                   <q-input outlined v-model="season.organizador" label="Organizador" />
                 </div>
 
@@ -134,16 +235,16 @@
             </q-card-actions>
           </q-card>
         </q-dialog>
-
-        <div
-          v-if="!seasonList.length"
-          class="absolute-center" align="center">
-          <div class="text-h5 text-primary" align="center">
-            Nenhuma Temporada Adicionada
-          </div>
-        </div>
-
       </q-card>
+
+      <div
+        v-if="!seasonList.length"
+        class="absolute-center" align="center">
+        <div class="text-h4 text-primary" align="center">
+          Nenhuma Temporada Adicionada
+        </div>
+      </div>
+
     </div>
   </q-page>
 </template>
@@ -153,18 +254,20 @@ export default {
   data () {
     return {
       openCreateModal: false,
+      openEditModal: false,
       confirm: false,
       indexList: -1,
       openMatchs: false,
       options: [],
       season: {
         nome: '',
-        periodo: '',
+        inicio: '',
+        fim: '',
         organizador: '',
         times: []
       },
       seasonList: [],
-      teamList: ['sdfsdf', 'sdfdsf', 'dsfdf', 'sdfdfsasdf', 'dfdsfasdf', 'dsfdfsasdf', 'sdfdsfasdf', 'sdfasdf', 'asdfsdfsd', 'sadf', 'adfdssdf', 'dfdsfs', 'd', 'f', 'teste2', 'teste3', 'testea2', 'teste3d', 'teste2b', 'teste3a', 'teste2f', 'teste3g', 'teste2h', 'teste3pp0', 'ausdh', 'dfghdfjgh', 'jkscfhuidfhgsdf'],
+      teamList: ['Time 1', 'Time 2', 'Time 3', 'Time 4', 'Time 5', 'Time 6', 'Time 7', 'Time 8', 'Time 9', 'Time 10', 'Time 11', 'Time 12', 'Time 13', 'Time 14', 'Time 15', 'Time 16', 'Time 17', 'Time 18', 'Time 19', 'Time 20', 'Time 21', 'Time 22'],
       matchs: [
         {
           time1: 'Gremio',
@@ -175,30 +278,24 @@ export default {
         {
           time1: 'santos',
           time2: 'curintia',
-          golsTime1: '3',
-          golsTime2: '0'
+          golsTime1: '2',
+          golsTime2: '1'
         },
         {
           time1: 'palmeiras',
           time2: 'flamengo',
-          golsTime1: '3',
-          golsTime2: '0'
+          golsTime1: '1',
+          golsTime2: '3'
         }
       ]
     }
   },
 
   created () {
-    this.$axios.get('http://localhost/')
-      .then(respose => {
-        console.log('palavra')
-      })
-      .catch(error => {
-        console.log(error)
-      })
     this.seasonList.push({
       nome: 'Brasileirão',
-      periodo: '27 de abril de 2019 - 8 de dezembro de 2019',
+      inicio: '2019/04/27',
+      fim: '2019/12/08',
       organizador: 'CBF'
     })
     this.options = this.teamList
@@ -214,11 +311,24 @@ export default {
       })
     },
 
+    chamarModalEdit (index) {
+      this.indexList = index
+      this.openEditModal = true
+      this.season = this.seasonList[this.indexList]
+    },
+
+    EditSeason () {
+      this.seasonList[this.indexList] = this.season
+      this.onReset()
+    },
+
     onReset () {
       this.openCreateModal = false
+      this.openEditModal = false
       this.season = {
         nome: '',
-        periodo: '',
+        inicio: '',
+        fim: '',
         organizador: ''
       }
     },
@@ -235,11 +345,6 @@ export default {
         type: 'positive',
         message: 'Temporada deletada com sucesso'
       })
-    },
-
-    editar (index) {
-      this.season = this.seasonList[index]
-      this.openCreateModal = true
     }
   }
 }

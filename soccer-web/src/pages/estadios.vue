@@ -19,7 +19,7 @@
           </q-card>
         </q-list>
 
-        <div class="row q-pl-xl justify-between">
+        <div v-if="estadiumList.length" class="row q-pl-xl justify-between">
           <div class="col-3"><strong>NOME</strong></div>
           <div class="col-3"><strong>CAPACIDADE</strong></div>
           <div class="col-3"><strong>LOCAL</strong></div>
@@ -28,7 +28,7 @@
 
         </div>
 
-        <q-list separator>
+        <q-list v-if="estadiumList.length" separator>
 
           <q-card
           class="q-mb-lg"
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="col-1">
-                  <q-btn round color="green" icon="edit" />
+                  <q-btn round color="green" icon="edit" @click="chamarModalEdit(index)"/>
                 </div>
 
                 <div class="col-1">
@@ -92,7 +92,7 @@
                 </div>
 
                 <div>
-                  <q-file outlined v-model="estadium.imagem">
+                  <q-file outlined v-model="estadium.imagem" label="Foto do Estádio">
                     <template v-slot:prepend>
                       <q-icon name="attach_file" />
                     </template>
@@ -104,6 +104,54 @@
 
                 <div>
                   <q-btn label="Salvar" type="submit" color="primary"/>
+                  <q-btn label="Cancelar" type="reset" color="primary" flat class="q-ml-sm" />
+                </div>
+              </q-form>
+            </q-card-section>
+          </q-card>
+        </q-dialog>
+
+       <q-dialog v-model="openEditModal" :position="'right'" full-height>
+          <q-card style="width: 400px">
+            <q-card-section>
+              <div class="text-h6" style="font-weight: bolder">Editar Estádio</div>
+            </q-card-section>
+
+            <q-card-section class="q-pt-none">
+              <q-form
+                @submit="EditStadium"
+                @reset="onReset"
+                class="q-gutter-md"
+              >
+                <div>
+                    <q-input outlined v-model="estadium.nome" label="Nome do Estádio" />
+                </div>
+
+                <div>
+                  <q-input outlined v-model="estadium.capacidade" label="Capacidade máxima" />
+                </div>
+
+                <div>
+                  <q-input outlined v-model="estadium.cidade" label="Cidade" />
+                </div>
+
+                <div>
+                  <q-input outlined v-model="estadium.estado" label="Estado" />
+                </div>
+
+                <div>
+                  <q-file outlined v-model="estadium.imagem" label="Foto do Estádio">
+                    <template v-slot:prepend>
+                      <q-icon name="attach_file" />
+                    </template>
+                    <template v-slot:append>
+                      <q-icon name="close" @click="estadium.imagem = null" class="cursor-pointer" />
+                    </template>
+                  </q-file>
+                </div>
+
+                <div>
+                  <q-btn label="Editar" type="submit" color="primary"/>
                   <q-btn label="Cancelar" type="reset" color="primary" flat class="q-ml-sm" />
                 </div>
               </q-form>
@@ -125,15 +173,16 @@
           </q-card>
         </q-dialog>
 
-        <div
-          v-if="!estadiumList.length"
-          class="absolute-center" align="center">
-          <div class="text-h5 text-primary" align="center">
-            Nenhum Estádio Adicionado
-          </div>
-        </div>
-
       </q-card>
+
+      <div
+        v-if="!estadiumList.length"
+        class="absolute-center" align="center">
+        <div class="text-h4 text-primary" align="center">
+          Nenhum Estádio Adicionado
+        </div>
+      </div>
+
     </div>
   </q-page>
 </template>
@@ -143,6 +192,7 @@ export default {
   data () {
     return {
       openCreateModal: false,
+      openEditModal: false,
       confirm: false,
       indexList: -1,
       estadium: {
@@ -176,8 +226,20 @@ export default {
       })
     },
 
+    chamarModalEdit (index) {
+      this.indexList = index
+      this.openEditModal = true
+      this.estadium = this.estadiumList[this.indexList]
+    },
+
+    EditStadium () {
+      this.estadiumList[this.indexList] = this.estadium
+      this.onReset()
+    },
+
     onReset () {
       this.openCreateModal = false
+      this.openEditModal = false
       this.estadium = {
         nome: '',
         capacidade: null,
